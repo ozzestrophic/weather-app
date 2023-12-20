@@ -25,27 +25,28 @@ async function fetchAndFill(place) {
   const data = await getWeather(place);
   fillData(data);
 }
-
+let currentPlace = "kuala lumpur";
 const submitBtn = document.getElementById("submit");
 
 submitBtn.addEventListener("click", async function (event) {
   event.preventDefault();
   const place = submitBtn.previousElementSibling.value;
   fetchAndFill(place);
+  currentPlace = place;
 });
 
 // toggle stupid units
 const toggleUnit = document.getElementById("toggleUnit");
 toggleUnit.addEventListener("click", async function (event) {
   if (event.target.innerText === "🤡 Stupid units") {
-    const data = await getWeather(document.getElementById("input").value);
+    const data = await getWeather(currentPlace);
     document.getElementById("degree").innerText = data.current.temp_f;
     document.getElementById("degreeUnit").innerText = "°F";
     document.getElementById("windSpeed").innerText = data.current.wind_mph;
     document.getElementById("windUnit").innerText = "MpH";
     event.target.innerText = "👨🏻‍🔬 Smart units";
   } else {
-    const data = await getWeather(document.getElementById("input").value);
+    const data = await getWeather(currentPlace);
     document.getElementById("degree").innerText = data.current.temp_c;
     document.getElementById("degreeUnit").innerText = "°C";
     document.getElementById("windSpeed").innerText = data.current.wind_kph;
@@ -54,4 +55,4 @@ toggleUnit.addEventListener("click", async function (event) {
   }
 });
 
-fetchAndFill("kuala lumpur");
+fetchAndFill(currentPlace);
